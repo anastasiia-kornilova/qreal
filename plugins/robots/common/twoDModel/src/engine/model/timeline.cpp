@@ -117,9 +117,9 @@ quint64 Timeline::timestamp() const
 utils::AbstractTimer *Timeline::produceTimer()
 {
 	auto &&connection = (QThread::currentThread() != this->thread()) ?
-				Qt::BlockingQueuedConnection : Qt::QueuedConnection;
+				Qt::BlockingQueuedConnection : Qt::DirectConnection;
 	utils::AbstractTimer *t = nullptr;
-	QMetaObject::invokeMethod("produceTimerImpl", connection, Q_RETURN_ARG(utils::AbstractTimer *, t));
+	QMetaObject::invokeMethod(this, "produceTimerImpl", connection, Q_RETURN_ARG(utils::AbstractTimer *, t));
 	return t;
 }
 
